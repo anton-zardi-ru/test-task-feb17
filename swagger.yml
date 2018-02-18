@@ -1,0 +1,53 @@
+﻿swagger: "2.0"
+info:
+  version: "0.0.1-SNAPSHOT"
+  title: "Сервис поиска последней заявки контакта"
+  contact:
+    email: "anton@zardi.ru"
+host: "localhost:8080"
+basePath: "/"
+schemes:
+- "http"
+paths:
+  /lastApplication:
+    get:
+      summary: "Сервис поиска последней заявки контакта"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "contactId"
+        in: "query"
+        description: "Контакт, для которого ищется последняя заявка"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Успешный ответ"
+          schema:
+            $ref: "#/definitions/lastApplication"
+        404:
+          description: "Заявка для данного контакта не найдена"
+        424:
+          description: "Контакт не найден"
+        500:
+          description: "Общая ошибка сервера"
+definitions:
+  lastApplication:
+    type: "object"
+    properties:
+      APPLICATION_ID:
+        type: "string"
+        example: "APPLICATION 1"
+      DT_CREATED:
+        type: "string"
+        format: "date-time-zone"
+        example: "2018-01-01 00:00:00 +0000"
+      PRODUCT_NAME:
+        type: "string"
+        example: "PRODUCT 1"
+      CONTACT_ID:
+        type: "string"
+        example: "CONTACT 1"
+    xml:
+      name: "LATEST_APPLICATION_OF_CONTACT"
