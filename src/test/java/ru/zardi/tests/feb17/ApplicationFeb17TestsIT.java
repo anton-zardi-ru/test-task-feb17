@@ -34,7 +34,7 @@ public class ApplicationFeb17TestsIT {
 
     @Test
     public void testInternalServerError() {
-        ResponseEntity<String> response = template.getForEntity(base.toString() + "/lastApplication?contactId=" + ApplicationController.CONTACT_ID_GENERATES_EXCEPTIONS,
+        ResponseEntity<String> response = template.getForEntity(base.toString() + "/latestApplication?contactId=" + ApplicationController.CONTACT_ID_GENERATES_EXCEPTIONS,
                                                                 String.class);
         Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
