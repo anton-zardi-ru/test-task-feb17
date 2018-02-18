@@ -27,15 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class ApplicationFeb17Tests {
     private final static ObjectMapper jsonMapper = new ObjectMapper();
-
-    private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss z");
-
     private final XmlMapper xmlMapper = new XmlMapper();
 
+    private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss z");
+    private final String urlPattern = "/latestApplication?contactId=";
 
     @Autowired
     private WebApplicationContext context;
-
 
     private MockMvc mvc;
 
@@ -75,7 +73,7 @@ public class ApplicationFeb17Tests {
                                            "PRODUCT NAME 2",
                                            "CONTACT 1");
         final String result =
-                this.mvc.perform(get("/latestApplication?contactId=" + expected.getContactId()).accept(MediaType.APPLICATION_XML))
+                this.mvc.perform(get(urlPattern + expected.getContactId()).accept(MediaType.APPLICATION_XML))
                         .andExpect(status().isOk()).andReturn().getResponse()
                         .getContentAsString();
         ResultDTO response = xmlMapper.readValue(result,
@@ -85,7 +83,7 @@ public class ApplicationFeb17Tests {
 
     private void assertGoodRequest(ResultDTO expected) throws Exception {
         final String result =
-                this.mvc.perform(get("/latestApplication?contactId=" + expected.getContactId())).andExpect(status().isOk()).andReturn().getResponse()
+                this.mvc.perform(get(urlPattern + expected.getContactId())).andExpect(status().isOk()).andReturn().getResponse()
                         .getContentAsString();
         ResultDTO response = jsonMapper.readValue(result,
                                                   ResultDTO.class);
@@ -94,6 +92,6 @@ public class ApplicationFeb17Tests {
     }
 
     private void assertBadRequest(String contactId, ResultMatcher expectedStatus) throws Exception {
-        this.mvc.perform(get("/latestApplication?contactId=" + contactId)).andExpect(expectedStatus);
+        this.mvc.perform(get(urlPattern + contactId)).andExpect(expectedStatus);
     }
 }

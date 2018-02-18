@@ -36,7 +36,7 @@ public class ApplicationController {
     }
 
     @RequestMapping(value = "/latestApplication", method = RequestMethod.GET)
-    public ResponseEntity<ResultDTO> findLastApplication(@RequestParam(value = "contactId") String contactId) {
+    public ResponseEntity<ResultDTO> findLatestApplication(@RequestParam(value = "contactId") String contactId) {
         if (CONTACT_ID_GENERATES_EXCEPTIONS.equals(contactId)) {
             throw new RuntimeException("test exception");
         }
