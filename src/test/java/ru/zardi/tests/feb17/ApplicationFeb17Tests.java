@@ -69,13 +69,13 @@ public class ApplicationFeb17Tests {
     }
 
     @Test
-    public void testGetLatestApplicationXml() throws Exception {
+        public void testGetLatestApplicationXml() throws Exception {
         ResultDTO expected = new ResultDTO("APPLICATION 2",
                                            dateFormat.parse("2018-02-02 02:02:00 +0000"),
                                            "PRODUCT NAME 2",
                                            "CONTACT 1");
         final String result =
-                this.mvc.perform(get("/lastApplication?contactId=" + expected.getContactId()).accept(MediaType.APPLICATION_XML))
+                this.mvc.perform(get("/latestApplication?contactId=" + expected.getContactId()).accept(MediaType.APPLICATION_XML))
                         .andExpect(status().isOk()).andReturn().getResponse()
                         .getContentAsString();
         ResultDTO response = xmlMapper.readValue(result,
@@ -85,7 +85,7 @@ public class ApplicationFeb17Tests {
 
     private void assertGoodRequest(ResultDTO expected) throws Exception {
         final String result =
-                this.mvc.perform(get("/lastApplication?contactId=" + expected.getContactId())).andExpect(status().isOk()).andReturn().getResponse()
+                this.mvc.perform(get("/latestApplication?contactId=" + expected.getContactId())).andExpect(status().isOk()).andReturn().getResponse()
                         .getContentAsString();
         ResultDTO response = jsonMapper.readValue(result,
                                                   ResultDTO.class);
@@ -94,6 +94,6 @@ public class ApplicationFeb17Tests {
     }
 
     private void assertBadRequest(String contactId, ResultMatcher expectedStatus) throws Exception {
-        this.mvc.perform(get("/lastApplication?contactId=" + contactId)).andExpect(expectedStatus);
+        this.mvc.perform(get("/latestApplication?contactId=" + contactId)).andExpect(expectedStatus);
     }
 }
